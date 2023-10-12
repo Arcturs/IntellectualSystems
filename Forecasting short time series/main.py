@@ -53,7 +53,7 @@ def paint_forecast(time_series):
     plt.plot(forecast.predicted_mean, label='Прогноз', color='red')
     plt.fill_between(forecast_conf_int.index, forecast_conf_int.iloc[:, 0], forecast_conf_int.iloc[:, 1], color='pink',
                      alpha=0.3)
-    plt.title('Прогноз SARIMA')
+    plt.title('Прогноз SARIMAX')
     plt.xlabel('Год')
     plt.ylabel('Значение')
     plt.legend()
