@@ -6,17 +6,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 
-def main():
-    file_path = pathlib.Path(__file__).with_name('data.dat')
-    data = pd.read_csv(file_path, delimiter="\t")
-
-    time_series = data['spark']
-
-    start_date = '01-01-1980'
-    end_date = '07-01-1994'
-    date_index = pd.date_range(start=start_date, end=end_date, freq='M')
-    time_series.index = date_index
-
+def paint_default_data(time_series):
     plt.figure(figsize=(12, 6))
     plt.plot(time_series)
     plt.title('Исходный временной ряд')
@@ -24,6 +14,8 @@ def main():
     plt.ylabel('Значение')
     plt.show()
 
+
+def paint_trend_and_seasonal(time_series):
     result = seasonal_decompose(time_series, model='additive', period=12)
     plt.figure(figsize=(12, 6))
     plt.subplot(211)
@@ -43,6 +35,8 @@ def main():
     plt.tight_layout()
     plt.show()
 
+
+def paint_forecast(time_series):
     p, d, q = 1, 1, 1  # Параметры ARIMA (порядок авторегрессии, интеграции, скользящего среднего)
     P, D, Q, s = 1, 1, 1, 12  # Параметры сезонности
 
@@ -69,6 +63,22 @@ def main():
     forecast_values = forecast.predicted_mean[-forecast_steps:]
     print('Спрогнозированные значения на 12 месяцев вперед:')
     print(forecast_values)
+
+
+def main():
+    file_path = pathlib.Path(__file__).with_name('data.dat')
+    data = pd.read_csv(file_path, delimiter="\t")
+
+    time_series = data['spark']
+
+    start_date = '01-01-1980'
+    end_date = '07-01-1994'
+    date_index = pd.date_range(start=start_date, end=end_date, freq='M')
+
+    time_series.index = date_index
+    paint_default_data(time_series)
+    paint_trend_and_seasonal(time_series)
+    paint_forecast(time_series)
 
 
 if __name__ == '__main__':
