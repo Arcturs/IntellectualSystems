@@ -32,7 +32,7 @@ def __main__():
     y_pred = find_predicted_values(best_k, x_train, x_test, y_train)
 
     conf_matrix = confusion_matrix(y_test, y_pred)
-    print("Матрица сопряженности:")
+    print("Таблица сопряженности:")
     print(conf_matrix)
 
     error_rate = (1 - accuracy_score(y_test, y_pred)) * 100
